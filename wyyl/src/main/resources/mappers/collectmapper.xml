@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.CollectDao">
+    <select id="findAll" resultType="Collect">
+        select * from collect order by cid desc;
+    </select>
+
+    <select id="findByCollectType" resultType="Collect">
+        SELECT * FROM collect WHERE collectType = #{collectType} ORDER BY cid DESC;
+    </select>
+    <select id="findByMidAndAid" resultType="Collect">
+        SELECT * FROM collect WHERE mid = #{mid} and aid=#{aid} ORDER BY cid DESC;
+    </select>
+    <select id="findByMid" resultType="Collect">
+        SELECT * FROM collect WHERE mid = #{mid} ORDER BY cid DESC;
+    </select>
+
+    <insert id="add">
+        INSERT INTO collect(cid,`mid`,collecttype,aid) VALUES (#{cid},#{mid},#{collectType},#{aid});
+    </insert>
+
+    <delete id="delete">
+        delete from collect where cid in
+        <foreach collection="array" open="(" close=")" separator="," item="cid">
+            #{cid}
+        </foreach>
+    </delete>
+</mapper>

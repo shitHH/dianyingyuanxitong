@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.AccountStateDao">
+    <select id="findAll" resultType="AccountState">
+        select * from accountstate order by asid desc;
+    </select>
+    <select id="findByAsid" resultType="AccountState">
+        select * from accountstate where asid=#{asid};
+    </select>
+    <insert id="add">
+        insert into accountstate(accountstate) values (#{accountstate})
+    </insert>
+    <update id="update">
+        update accountstate set accountstate=#{accountstate} where asid=#{asid}
+    </update>
+    <delete id="delete">
+        delete from accountstate where asid in
+        <foreach collection="array" item="asid" open="(" separator="," close=")">
+            ${asid}
+        </foreach>
+    </delete>
+</mapper>

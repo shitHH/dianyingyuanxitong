@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.MovieCommentDao">
+
+    <select id="findAll" resultType="MovieComment">
+        select * from MovieComment order by commentTime desc
+    </select>
+
+    <select id="findAllVO" resultType="MovieCommentVO">
+        select * from MovieComment,movies,account where MovieComment.mid=movies.mid and moviecomment.aid=account.aid order by commentTime desc
+    </select>
+
+    <select id="findByMid" resultType="MovieComment">
+        select * from MovieComment where mid=#{mid}
+    </select>
+
+    <select id="findByMidVO" resultType="MovieCommentVO">
+        select * from MovieComment,movies,account where MovieComment.mid=movies.mid and MovieComment.aid=account.aid and MovieComment.mid=#{mid} order by commentTime desc
+    </select>
+
+    <select id="findByAid" resultType="MovieComment">
+        select * from MovieComment where aid=#{aid}
+    </select>
+
+    <select id="findByAidVO" resultType="MovieCommentVO">
+        select * from MovieComment,account,movies where moviecomment.aid=account.aid and MovieComment.mid=movies.mid and moviecomment.aid=#{aid}
+    </select>
+
+    <select id="findByMcid" resultType="MovieComment">
+        select * from MovieCommet where mcid=#{mcid}
+    </select>
+
+    <select id="findByMcidVO" resultType="MovieCommentVO">
+        select * from MovieComment,account where moviecomment.aid=account.aid and moviecomment.mcid=#{mcid}
+    </select>
+
+    <insert id="add">
+        insert into moviecomment(moviecontent,commenttime,movierating,mid,ssid,aid,hotnumber) values(#{moviecontent},#{commenttime},#{movierating},#{mid},#{ssid},#{aid},#{hotnumber})
+    </insert>
+
+    <update id="update">
+        update moviecomment set moviecontent=#{moviecontent},commenttime=#{commenttime0},movierating=#{movierating},mid=#{mid},ssid=#{ssid},aid=#{aid},hotnumber=#{hotnumber} where mcid=#{mcid}
+    </update>
+    <delete id="delete">
+        delete  from moviecomment where mcid in
+        <foreach collection="array" open="(" close=")" separator="," item="mcid">
+            #{mcid}
+        </foreach>
+    </delete>
+    <select id="score" resultType="double">
+        select avg(movierating) from moviecomment where mid=#{mid}
+    </select>
+</mapper>

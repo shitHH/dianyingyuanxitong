@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.HallDao">
+    <select id="findAll" resultType="Hall">
+        select * from hall order by hid desc
+    </select>
+    <select id="findByCinemaid" resultType="Hall">
+        select * from hall,cinema where cinema.cinemaid=#{cinemaid}
+    </select>
+    <select id="findById" resultType="Hall">
+        select * from hall where hid = #{hid}
+    </select>
+
+    <select id="findVOByHid" resultType="HallVO">
+        select * from hall,halltype,layout where hall.htid = halltype.htid and hall.loid=layout.loid and hid = #{hid}
+    </select>
+    <select id="findVOByCinemaid" resultType="HallVO">
+        SELECT * FROM hall h,cinema c,halltype ht ,layout l WHERE l.loid=h.loid AND h.cinemaid=c.cinemaid AND h.htid=ht.htid AND  h.cinemaid=#{cinameid}
+    </select>
+    <insert id="add">
+        insert into hall(hname,htid,loid,hallState,cinemaid) values(#{hname},#{htid},#{loid},#{hallState},#{cinemaid})
+    </insert>
+    <update id="update">
+        update hall set hname=#{hname},htid=#{htid},loid=#{loid},hallState=#{hallState},cinemaid=#{cinemaid} where hid = #{hid}
+    </update>
+    <delete id="delete">
+        delete from hall where hid in
+        <foreach collection="array" open="(" separator="," close=")" item="hid">
+            #{hid}
+        </foreach>
+    </delete>
+
+</mapper>

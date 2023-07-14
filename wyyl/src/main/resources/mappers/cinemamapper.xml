@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.CinemaDao">
+    <select id="findAll" resultType="Cinema">
+        select * from cinema order by cinemaid desc;
+    </select>
+    <select id="findByCinemaid" resultType="Cinema">
+        select * from cinema where cinemaid=#{cinemaid};
+    </select>
+    <select id="findByCaid" resultType="Cinema">
+        select * from cinema where caid=#{caid};
+    </select>
+
+    <select id="findVOAll" resultType="CinemaVO">
+       SELECT * FROM cinema c,cinemaapply ca WHERE c.`caid`=ca.caid AND ca.castate='已通过' GROUP BY caddress
+    </select>
+    <select id="findVOAllCom" resultType="CinemaVO">
+       SELECT * FROM cinema c,cinemaapply ca WHERE c.`caid`=ca.caid AND ca.castate='已通过'
+    </select>
+
+    <insert id="add">
+        insert into cinema(cinemaid,caid,openstate) values (#{cinemaid},#{caid},#{openstate});
+    </insert>
+    <update id="update">
+        update cinema set caid=#{caid},openstate=#{openstate} where cinemaid=#{cinemaid};
+    </update>
+    <delete id="delete">
+        delete from cinema where cinemaid in
+        <foreach collection="array" item="cinemaid" open="(" separator="," close=")">
+            ${cinemaid}
+        </foreach>
+    </delete>
+</mapper>

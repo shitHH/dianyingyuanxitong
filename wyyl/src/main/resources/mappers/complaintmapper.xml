@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.ComplaintDao">
+    <select id="findAll" resultType="Complaint">
+        select * from `Complaint` order by cpid desc
+    </select>
+    <select id="findByCpid" resultType="Complaint">
+        select * from complaint where cpid=#{cpid}
+    </select>
+    <select id="findByCinemaid" resultType="Complaint">
+        select * from `Complaint` where cinemaid=#{cinemaid} order by cpid desc
+    </select>
+    <select id="findByAid" resultType="Complaint">
+        select * from `Complaint` where aid=#{aid} order by cpid desc
+    </select>
+    <select id="findVOAll" resultType="ComplaintVO">
+        SELECT
+          cp.`cpid`,
+          cp.`cinemaid`,
+          cp.`aid`,
+          cp.`cpstate`,
+          cp.`createtime`,
+          cp.`reason`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cname`,
+          ca.`cemail`,
+          ca.`ctel`,
+          a.`aname`,
+          a.`tel`
+        FROM
+          complaint cp,
+          cinema c,
+          cinemaapply ca,
+          account a
+        WHERE cp.`aid` = a.`aid`
+          AND cp.`cinemaid` = c.`cinemaid`
+          AND c.`caid` = ca.`caid`
+        ORDER BY createtime DESC
+    </select>
+    <select id="findVOByCpid" resultType="ComplaintVO">
+        SELECT
+          cp.`cpid`,
+          cp.`cinemaid`,
+          cp.`aid`,
+          cp.`cpstate`,
+          cp.`createtime`,
+          cp.`reason`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cname`,
+          ca.`cemail`,
+          ca.`ctel`,
+          a.`aname`,
+          a.`tel`
+        FROM
+          complaint cp,
+          cinema c,
+          cinemaapply ca,
+          account a
+        WHERE cp.`aid` = a.`aid`
+          AND cp.`cinemaid` = c.`cinemaid`
+          AND c.`caid` = ca.`caid`
+          and cp.cpid=#{cpid}
+        ORDER BY createtime DESC
+    </select>
+    <select id="findVOByCinemaid" resultType="ComplaintVO">
+        SELECT
+          cp.`cpid`,
+          cp.`cinemaid`,
+          cp.`aid`,
+          cp.`cpstate`,
+          cp.`createtime`,
+          cp.`reason`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cname`,
+          ca.`cemail`,
+          ca.`ctel`,
+          a.`aname`,
+          a.`tel`
+        FROM
+          complaint cp,
+          cinema c,
+          cinemaapply ca,
+          account a
+        WHERE cp.`aid` = a.`aid`
+          AND cp.`cinemaid` = c.`cinemaid`
+          AND c.`caid` = ca.`caid`
+          and cp.cinemaid=#{cinemaid}
+        ORDER BY createtime DESC
+    </select>
+    <select id="findVOByAid" resultType="ComplaintVO">
+        SELECT
+          cp.`cpid`,
+          cp.`cinemaid`,
+          cp.`aid`,
+          cp.`cpstate`,
+          cp.`createtime`,
+          cp.`reason`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cname`,
+          ca.`cemail`,
+          ca.`ctel`,
+          a.`aname`,
+          a.`tel`
+        FROM
+          complaint cp,
+          cinema c,
+          cinemaapply ca,
+          account a
+        WHERE cp.`aid` = a.`aid`
+          AND cp.`cinemaid` = c.`cinemaid`
+          AND c.`caid` = ca.`caid`
+          and cp.aid=#{aid}
+        ORDER BY createtime DESC
+    </select>
+
+    <insert id="insert">
+        insert into `Complaint` ( cinemaid,  aid,  reason,  cpState,createtime) values (#{cinemaid},  #{aid},  #{reason},  #{cpState},#{createtime})
+    </insert>
+    <update id="update">
+        update `Complaint` set cpState=#{cpState} where cpid=#{cpid}
+    </update>
+    <delete id="delete">
+        delete from `Complaint`
+         where cpid in
+        <foreach collection="array" open="(" close=")" separator="," item="cpid">
+            #{cpid}
+        </foreach>
+    </delete>
+    <select id="findByCpstate" resultType="Complaint">
+        SELECT * FROM complaint WHERE cpstate=#{cpstate} order by cpid desc
+    </select>
+
+</mapper>

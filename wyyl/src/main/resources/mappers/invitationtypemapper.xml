@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.InvitationTypeDao">
+    <select id="findAll" resultType="InvitationType">
+        select * from invitationtype
+    </select>
+    <select id="findByItid" resultType="InvitationType">
+        select * from invitationtype where itid = #{itid}
+    </select>
+    <insert id="add">
+        insert into invitationtype(itname) values (#{itname})
+    </insert>
+    <update id="update">
+        update invitationtype set itname = #{itname} where itid = #{itid}
+    </update>
+    <delete id="delete">
+        delete from invitationtype where itid in
+        <foreach collection="array" open="(" separator="," close=")" item="itid">
+            #{itid}
+        </foreach>
+    </delete>
+
+</mapper>

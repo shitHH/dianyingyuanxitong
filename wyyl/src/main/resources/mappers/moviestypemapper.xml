@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.MovieTypeDao">
+    <select id="findAll" resultType="MovieType">
+        select * from MovieType order by mtid desc
+    </select>
+    <select id="findById" resultType="MovieType">
+        select * from MovieType where mtid = #{mtid}
+    </select>
+    <insert id="add">
+        insert into MovieType (mtname) values (#{mtname})
+    </insert>
+    <update id="update">
+        update MovieType set mtname = #{mtname} where mtid = #{mtid}
+    </update>
+    <delete id="delete">
+        delete from MovieType  where mtid in
+        <foreach collection="array" open="(" separator="," close=")" item="mtid">
+            #{mtid}
+        </foreach>
+    </delete>
+</mapper>

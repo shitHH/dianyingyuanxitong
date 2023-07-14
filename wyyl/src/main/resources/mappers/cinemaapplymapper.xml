@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.CinemaApplyDao">
+    <select id="findAll" resultType="CinemaApply">
+        select * from cinemaapply order by caid desc;
+    </select>
+    <select id="findByCaid" resultType="CinemaApply">
+        select * from cinemaapply where caid=#{caid};
+    </select>
+    <insert id="add">
+        insert into cinemaapply(cname,caddress,dataaddress,cemail,ctel,castate,`name`,`identity`) values (#{cname},#{caddress},#{dataaddress},#{cemail},#{ctel},#{castate},#{name},#{identity});
+    </insert>
+    <update id="update">
+        update cinemaapply set cname=#{cname},caddress=#{caddress},dataaddress=#{dataaddress},cemail=#{cemail},ctel=#{ctel},castate=#{castate},`name`=#{name},`identity`=#{identity} where caid=#{caid};
+    </update>
+    <delete id="delete">
+        delete from cinemaapply where caid in
+        <foreach collection="array" item="caid" open="(" separator="," close=")">
+            ${caid}
+        </foreach>
+    </delete>
+    <select id="findByCastate" resultType="CinemaApply">
+        SELECT * FROM cinemaapply WHERE castate=#{castate} ORDER BY caid DESC
+    </select>
+</mapper>

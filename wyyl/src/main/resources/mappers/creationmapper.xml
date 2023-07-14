@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.CreationDao">
+    <select id="findAll" resultType="Creation">
+        select * from Creation order by ctid desc
+    </select>
+
+    <select id="findByCtid" resultType="Creation">
+        select * from Creation where ctid=#{ctid}
+    </select>
+
+    <select id="findByFid" resultType="Creation">
+        select * from Creation where fid=#{fid}
+    </select>
+
+    <select id="findByMid" resultType="Creation">
+        select  * from Creation where mid=#{mid}
+    </select>
+
+    <select id="findByCreationTypeId" resultType="Creation">
+        select  * from Creation where creationTypeid=#{creationTypeid}
+    </select>
+
+    <insert id="add">
+        insert into Creation(fid,mid,creationTypeid) values (#{fid},#{mid},#{creationTypeid})
+    </insert>
+
+    <update id="update">
+        update Creation set fid=#{fid},mid=#{mid},creationTypeid=#{creationTypeid} where ctid=#{ctid}
+    </update>
+
+    <delete id="delete">
+        delete  from creation where ctid in
+        <foreach collection="array" open="(" separator="," close=")" item="ctid">
+            ${ctid}
+        </foreach>
+    </delete>
+</mapper>

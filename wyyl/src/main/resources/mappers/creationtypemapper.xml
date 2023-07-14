@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.CreationTypeDao">
+    <select id="findAll" resultType="CreationType">
+        select * from CreationType order by creationTypeid desc
+    </select>
+
+    <select id="findByCreationTypeId" resultType="CreationType">
+        select * from CreationType where creationTypeid=#{creationTypeid}
+    </select>
+
+    <insert id="add">
+        insert into CreationType(creationType) values (#{creationType})
+    </insert>
+
+    <update id="update">
+        update CreationType set creationType=#{creationType}  where creationTypeid=#{creationTypeid}
+    </update>
+
+    <delete id="delete">
+        delete from CreationType where creationTypeid in
+        <foreach collection="array" open="(" separator="," close=")" item="creationTypeid">
+            ${creationTypeid}
+        </foreach>
+    </delete>
+</mapper>

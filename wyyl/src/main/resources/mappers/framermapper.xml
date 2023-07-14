@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.FramerDao">
+    <select id="findAll" resultType="Framer">
+        select * from Framer order by fid desc
+    </select>
+    <select id="findByFid" resultType="Framer">
+        select * from Framer where fid=#{fid}
+    </select>
+    <select id="findVOByFid" resultType="FramerVO">
+         select * from Framer,Creationtype where framer.Creationtypeid = Creationtype.Creationtypeid and Framer.fid = #{fid}
+    </select>
+
+    <insert id="add">
+        insert into Framer (fname,fPictureAddress) values (#{fname},#{fPictureAddress})
+    </insert>
+    <update id="update">
+        update Framer set fname=#{fname},fPictureAddress=#{fPictureAddress} where fid=#{fid}
+    </update>
+    <delete id="delete">
+        delete  from Framer where fid=#{fid}
+    </delete>
+</mapper>

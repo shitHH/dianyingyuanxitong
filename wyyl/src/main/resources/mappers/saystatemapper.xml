@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.SayStateDao">
+
+    <select id="findAll" resultType="SayState">
+        select * from SayState order by ssid desc
+    </select>
+
+    <select id="findBySsid" resultType="SayState">
+        select * from SayState where ssid=#{ssid}
+    </select>
+
+    <insert id="add">
+        insert into saystate(saystate) values (#{saystate})
+    </insert>
+
+    <update id="update">
+        update saystate set saystate=#{saystate} where ssid=#{ssid}
+    </update>
+
+    <delete id="delete">
+        delete  from SayState where ssid=#{ssid}
+    </delete>
+</mapper>

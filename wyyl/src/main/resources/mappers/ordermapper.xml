@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.OrderDao">
+    <select id="findAll" resultType="Order">
+        select * from `Order` order by oid desc
+    </select>
+    <select id="findByAid" resultType="Order">
+        select * from `Order`  where aid=#{aid} order by oid desc
+    </select>
+    <select id="findByOid" resultType="Order">
+        select * from `Order` where oid=#{oid}
+    </select>
+    <select id="findByMsid" resultType="Order">
+        select * from `Order` where msid=#{msid} order by oid desc
+    </select>
+    <select id="findByOrderNumber" resultType="Order">
+        select * from `Order` where ordernumber=#{orderNumber}
+    </select>
+    <!--int oid, String orderNumber, Timestamp orderTime, String orderState, String ticketState, String payState, int msid, Timestamp beginTime, Timestamp endTime, double moneyone, int aid, String aname, String tel, double moneyAll, int hid, String hname, int htid, int htname, int mid, String manme, int time-->
+    <select id="findVOAll" resultType="com.wm.vo.OrderVO">
+        SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          order by oid desc
+    </select>
+
+    <select id="findState" resultType="com.wm.vo.OrderVO">
+        SELECT
+          SUM(o.money) as moneyall,m.mname
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`mid` = m.`mid`
+          AND o.`orderstate` = "已完成"
+          GROUP BY m.mname
+    </select>
+
+    <select id="findVOByAid" resultType="com.wm.vo.OrderVO">
+        SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          and o.aid=#{aid} order by oid desc
+    </select>
+    <select id="findVOByCinemaid" resultType="com.wm.vo.OrderVO">
+        SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          and h.`cinemaid`=#{cinemaid} order by oid desc
+    </select>
+    <select id="findVOByMidAndCinemaid" resultType="com.wm.vo.OrderVO">
+        SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          and h.`cinemaid`=#{cinemaid}
+        and ms.`mid`=#{mid}
+           order by oid desc
+    </select>
+    <select id="findVOByMid" resultType="com.wm.vo.OrderVO">
+        SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          and ms.mid=#{mid} order by oid desc
+    </select>
+    <select id="findVOByOid" resultType="OrderVO">
+        SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          and  o.oid=#{oid}
+    </select>
+    <select id="findVOByMsid" resultType="OrderVO">
+        SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          and o.msid=#{msid} order by oid desc
+    </select>
+    <select id="findVOByOrderNumber" resultType="OrderVO">
+         SELECT
+          o.oid,
+          o.`ordernumber`,
+          o.`money` moneyall,
+          o.`orderstate`,
+          o.`ordertime`,
+          o.`msid`,
+          o.`ticketstate`,
+          o.`aid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`money` moneyone,
+          ms.`hid`,
+          ms.`mid`,
+          a.`aname`,
+          a.`tel`,
+          m.`mname`,
+          m.`time`,
+          m.mtid,
+          mt.mtname,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          ht.`htname`,
+          c.`caid`,
+          ca.`caddress`,
+          ca.`cemail`,
+          ca.`ctel`,
+          ca.`cname`
+        FROM
+          `Order` o,
+          moviestall ms,
+          account a,
+          movies m,
+          hall h,
+          halltype ht,
+          cinema c,
+          cinemaapply ca,
+          movietype mt
+        WHERE o.`aid` = a.`aid`
+          AND m.`mtid` = mt.`mtid`
+          AND o.`msid` = ms.`msid`
+          AND ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND c.`caid` = ca.`caid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          and o.ordernumber=#{orderNumber}
+    </select>
+
+
+
+    <insert id="insert">
+        insert into `order` (orderNumber,  orderTime,  orderState,  ticketState,  msid,  aid,  money) values (#{orderNumber},  #{orderTime},  #{orderState},  #{ticketState},#{msid},  #{aid},  #{money})
+    </insert>
+    <update id="update">
+        update `order` set orderState=#{orderState},  ticketState=#{ticketState} where oid=#{oid}
+    </update>
+
+    <delete id="delete">
+        delete from `order`
+        where oid in
+        <foreach collection="array" open="(" close=")" separator="," item="oid">
+            #{oid}
+        </foreach>
+    </delete>
+
+</mapper>

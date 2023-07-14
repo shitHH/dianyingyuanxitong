@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.MovieStallDao">
+    <select id="findAll" resultType="MovieStall">
+        select * from MovieStall order by msid desc
+    </select>
+    <select id="findByMsid" resultType="MovieStall">
+        select * from MovieStall where msid=#{msid} order by msid desc
+    </select>
+    <select id="findByMid" resultType="MovieStall">
+        select * from MovieStall where `mid`=#{mid} order by msid desc
+    </select>
+    <select id="findByMidAndHid" resultType="MovieStall">
+        select * from MovieStall where `mid`=#{mid} and hid=#{hid} order by msid desc
+    </select>
+
+
+    <select id="findVOAll" resultType="MovieStallVO">
+        SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          m.`mname`,
+          m.`time`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+        ORDER BY ms.`begintime`
+    </select>
+    <select id="findVOByMsid" resultType="MovieStallVO">
+        SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          ca.caddress,
+          m.`mname`,
+          m.`time`,
+          m.`mtid`,
+          mt.`mtname`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m,
+          movietype mt
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          and m.mtid=mt.mtid
+          AND ms.`msid`=#{msid}
+          ORDER BY msid desc
+    </select>
+    <select id="findVOByMid" resultType="MovieStallVO">
+                SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          m.`mname`,
+          m.`time`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          and ms.`mid`=#{mid}
+        ORDER BY ms.`begintime`
+    </select>
+    <select id="findVOByHid" resultType="MovieStallVO">
+                SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          m.`mname`,
+          m.`time`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          and ms.`hid`=#{hid}
+        ORDER BY ms.`begintime`
+    </select>
+    <select id="findVOByMidAndHid" resultType="MovieStallVO">
+                SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          m.`mname`,
+          m.`time`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          and ms.`mid`=#{mid}
+          and h.hid=#{hid}
+        ORDER BY ms.`begintime`
+    </select>
+    <select id="findVOByMidAndCinemaid" resultType="MovieStallVO">
+       SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          m.`mname`,
+          m.`time`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          and ms.`mid`=#{mid}
+          and h.cinemaid=#{cinemaid}
+        ORDER BY ms.`begintime`
+    </select>
+    <select id="findVOByCinemaid" resultType="MovieStallVO">
+       SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          m.`mname`,
+          m.`time`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          and h.cinemaid=#{cinemaid}
+        ORDER BY msid desc
+    </select>
+    <select id="findVOByCity" resultType="MovieStallVO">
+
+ SELECT
+          ms.`msid`,
+          ms.`begintime`,
+          ms.`endtime`,
+          ms.`hid`,
+          ms.`mid`,
+          ms.`money`,
+          ms.`state`,
+          h.`cinemaid`,
+          h.`hname`,
+          h.`htid`,
+          h.`loid`,
+          ht.`htname`,
+          lo.`col`,
+          lo.`row`,
+          c.`caid`,
+          ca.`cname`,
+          m.`mname`,
+          m.`time`
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema c,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          AND ca.caddress LIKE '%${city}%'
+        ORDER BY msid DESC
+    </select>
+    <select id="findVOByMidOnly" resultType="MovieStallVO">
+               SELECT
+          DISTINCT  h.`cinemaid`,
+          ca.`cname`,
+          ca.caddress
+        FROM
+          moviestall ms,
+          hall h,
+          halltype ht,
+          layout lo,
+          cinema `c`,
+          cinemaapply ca,
+          movies m
+        WHERE ms.`hid` = h.`hid`
+          AND ms.`mid` = m.`mid`
+          AND h.`htid` = ht.`htid`
+          AND h.`cinemaid` = c.`cinemaid`
+          AND h.`loid` = lo.`loid`
+          AND c.`caid` = ca.`caid`
+          AND ms.`mid`=#{mid}
+    </select>
+
+    <insert id="insert">
+        insert into MovieStall (beginTime,endTime,money,`state`,hid,`mid`) values (#{beginTime},#{endTime},#{money},#{state},#{hid},#{mid})
+    </insert>
+    <update id="update">
+        update MovieStall set money=#{money},`state`=#{state} where msid=#{msid}
+    </update>
+
+    <delete id="delete">
+        delete from MovieStall where msid in
+        <foreach collection="array" open="(" close=")" separator="," item="msid">
+            #{msid}
+        </foreach>
+    </delete>
+
+</mapper>

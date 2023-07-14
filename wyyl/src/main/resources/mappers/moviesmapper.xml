@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.MoviesDao">
+    <select id="findAll" resultType="Movies">
+        select * from Movies order by `mid` desc
+    </select>
+    <select id="findByMid" resultType="Movies">
+        select * from Movies where `mid`=#{mid} order by `mid` desc
+    </select>
+    <select id="findByManme" resultType="Movies">
+        select * from Movies where `mname`=#{mname} order by `mid` desc
+    </select>
+    <select id="findByMovieState" resultType="Movies">
+        select * from Movies where `moviestate`=#{moviestate}  order by `mid` desc
+    </select>
+
+    <select id="findVOAll" resultType="MoviesVO">
+        select * from Movies,movietype where movies.mtid=movietype.mtid order by score desc
+    </select>
+
+    <select id="findVOByMtid" resultType="MoviesVO">
+        SELECT * FROM Movies,movietype WHERE movies.mtid = movietype.mtid AND movies.mtid = #{mtid} ORDER BY `mid` DESC
+    </select>
+
+    <select id="findVOByMid" resultType="MoviesVO">
+        select * from Movies,movietype where movies.mtid=movietype.mtid and `mid`=#{mid} order by `mid` desc
+    </select>
+    <select id="findVOByManme" resultType="MoviesVO">
+        select * from Movies,movietype where movies.mtid=movietype.mtid and mname like '%${mname}%' order by `mid` desc
+    </select>
+    <select id="findVOByMovieState" resultType="MoviesVO">
+        select * from Movies ,movietype where movies.mtid=movietype.mtid and `moviestate`=#{moviestate}  order by `mid` desc
+    </select>
+
+    <select id="findByMoviereating" resultType="MoviesVO">
+        SELECT movies.mid, movies.mname,SUM(moviecomment.movierating) movierating FROM Movies ,moviecomment WHERE movies.mid=moviecomment.mid GROUP BY movies.mid
+    </select>
+
+    <insert id="insert">
+        insert into Movies (mname,`time`,introduce,moviestate,score,mtid,coveraddress,previewaddress,director,releaseTime) values (#{mname},#{time},#{introduce},#{moviestate},#{score},#{mtid},#{coveraddress},#{previewaddress},#{director},#{releaseTime})
+    </insert>
+    <update id="update">
+        update Movies set mname=#{mname},`time`=#{time},introduce=#{introduce},moviestate=#{moviestate},score=#{score},mtid=#{mtid},coveraddress=#{coveraddress},previewaddress=#{previewaddress},director=#{director},releaseTime = #{releaseTime} where mid=#{mid}
+    </update>
+
+    <delete id="delete">
+        delete from Movies where mid in
+        <foreach collection="array" open="(" close=")" separator="," item="mid">
+            #{mid}
+        </foreach>
+    </delete>
+
+</mapper>

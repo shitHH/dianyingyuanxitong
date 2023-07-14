@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.HallTypeDao">
+    <select id="findAll" resultType="HallType">
+        select * from halltype order by htid desc
+    </select>
+    <select id="findById" resultType="HallType">
+        select * from halltype where htid = #{htid}
+    </select>
+    <insert id="add">
+        insert into halltype(htname) values (#{htname})
+    </insert>
+    <update id="update">
+        update halltype set htname = #{htname} where htid = #{htid}
+    </update>
+    <delete id="delete">
+        delete from halltype where htid in
+        <foreach collection="array" open="(" separator="," close=")" item="htid">
+            #{htid}
+        </foreach>
+    </delete>
+</mapper>

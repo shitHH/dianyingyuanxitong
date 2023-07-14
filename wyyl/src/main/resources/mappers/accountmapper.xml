@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wm.dao.AccountDao">
+    <select id="findAll" resultType="Account">
+        select * from account order by aid desc;
+    </select>
+    <select id="findVoAll" resultType="AccountVo">
+        SELECT * FROM account,role,accountstate WHERE account.rid=role.rid AND account.asid=accountstate.asid ORDER BY account.aid DESC;
+    </select>
+    <select id="findByRid" resultType="Account">
+        select * from account where rid=#{rid}
+    </select>
+    <select id="findVoByRid" resultType="AccountVo">
+        select * from account,role where account.rid=role.rid and account.rid=#{rid}
+    </select>
+    <select id="findVoByRid1" resultType="AccountVo">
+        select * from account,role where account.rid=role.rid and (account.rid=3 or account.rid = 5)
+    </select>
+    <select id="findByAsid" resultType="Account">
+        select * from account where asid=#{asid}
+    </select>
+    <select id="findVoByAsid" resultType="AccountVo">
+        select * from account,accountstate where account.asid=accountstate.asid and account.asid=#{asid}
+    </select>
+    <select id="findByAname" resultType="Account">
+        select * from account where  aname like '%${_parameter}%'
+    </select>
+    <select id="findVoByAname" resultType="AccountVo">
+        select * from account,role,accountstate where account.rid=role.rid and account.asid=accountstate.asid and account.aname like '%${_parameter}%'
+    </select>
+    <select id="findVOByAid" resultType="AccountVo">
+        select * from account,role,accountstate where account.rid=role.rid and account.asid=accountstate.asid and account.aid=#{aid}
+    </select>
+    <select id="findByAid" resultType="Account">
+        select * from account where aid=#{aid};
+    </select>
+    <select id="findByCinemaid" resultType="Account">
+        select * from account where cinemaid=#{cinemaid};
+    </select>
+    <select id="findByTel" resultType="Account">
+        select * from account where tel=#{tel};
+    </select>
+    <select id="findByIp" resultType="Account">
+        select * from account where ip=#{ip};
+    </select>
+    <select id="findByIelAndPass" resultType="Account">
+        select * from account where tel=#{tel} and pass=#{pass};
+    </select>
+    <select id="findVoByTelAndPass" resultType="AccountVo">
+        select * from account,`role`,accountstate where account.rid=`role`.rid and account.asid=accountstate.asid and tel=#{tel} and pass=#{pass};
+    </select>
+    <select id="findByAidAndPass" resultType="Account">
+        select * from account where aid=#{aid} and pass=#{pass};
+    </select>
+    <select id="findVoByAidAndPass" resultType="AccountVo">
+        select * from account,`role`,accountstate where account.rid=`role`.rid and account.asid=accountstate.asid and aid=#{aid} and `pass`=#{pass};
+    </select>
+    <insert id="add">
+        insert into account(tel,aname,sex,birthday,headshotaddress,`describe`,pass,rid,asid,creattime,ip,cinemaid) values (#{tel},#{aname},#{sex},#{birthday},#{headshotaddress},#{describe},#{pass},#{rid},#{asid},#{creattime},#{ip},#{cinemaid})
+    </insert>
+    <insert id="addCinemaAccount">
+        insert into account(tel,aname,headshotaddress,`describe`,pass,rid,asid,creattime,cinemaid) values (#{tel},#{aname},#{headshotaddress},#{describe},#{pass},#{rid},#{asid},#{creattime},#{cinemaid})
+    </insert>
+    <insert id="addAdmin">
+        insert into account(tel,aname,sex,headshotaddress,`describe`,pass,rid,asid,creattime) values (#{tel},#{aname},#{sex},#{headshotaddress},#{describe},#{pass},#{rid},#{asid},#{creattime})
+    </insert>
+    <update id="update">
+        update account set tel=#{tel},aname=#{aname},sex=#{sex},birthday=#{birthday},headshotaddress=#{headshotaddress},`describe`=#{describe},pass=#{pass},rid=#{rid},asid=#{asid},creattime=#{creattime},ip=#{ip} where aid=#{aid}
+    </update>
+    <delete id="delete">
+        delete from account where aid in 
+        <foreach collection="array" open="(" separator="," close=")" item="aid">
+            ${aid}
+        </foreach>
+    </delete>
+</mapper>

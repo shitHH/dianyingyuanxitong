@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wm.dao.RoleDao">
+    <select id="findAll" resultType="Role">
+        select * from role order by rid desc;
+    </select>
+    <select id="findByRid" resultType="Role">
+        select * from role where rid=#{rid};
+    </select>
+    <select id="findByRname" resultType="Role">
+        select * from role where rname=#{rname};
+    </select>
+    <insert id="add">
+        insert into role (rname) values (#{rname});
+    </insert>
+    <update id="update">
+        update role set rname=#{rname} where rid=#{rid}
+    </update>
+    <delete id="delete">
+        delete from role where rid in
+        <foreach collection="array" item="rid" open="(" separator="," close=")">
+            ${rid}
+        </foreach>
+    </delete>
+</mapper>
